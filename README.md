@@ -92,14 +92,3 @@ id:name:salary:int:string:float
 1:Alice:4500.5
 2:Bob:5000.0
 ```
-
----
-
-````
-
-This version:
-- Fixes nested/extra backticks (` ``` `) issues.
-- Ensures all code blocks are consistently using triple backticks.
-- Ready for GitHub, Markdown viewers, or copying into Canva notes.
-
-````
