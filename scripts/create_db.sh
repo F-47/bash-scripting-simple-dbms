@@ -8,3 +8,4 @@ else
     mkdir "$DB_DIR/$db_name"
     echo "Database '$db_name' created."
 fi
+
