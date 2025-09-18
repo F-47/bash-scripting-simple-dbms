@@ -1,4 +1,3 @@
-````markdown
 # Bash RDBMS (Relational Database Management System)
 
 ## 📂 Project Structure
@@ -16,7 +15,6 @@
 │   ├── drop_table.sh        # Drop (delete) a table
 └── Databases/               # Databases will be created here
 ```
-````
 
 - **Database** → represented as a folder.
 - **Table** → represented as a file inside a database folder.
