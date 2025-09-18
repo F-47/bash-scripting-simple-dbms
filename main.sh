@@ -1,8 +1,8 @@
 #!/bin/bash
-DB_DIR="./Databases"
+db_directory="./Databases"
 
 # Ensure the databases folder exists
-mkdir -p "$DB_DIR"
+mkdir -p "$db_directory"
 
 while true; do
     echo "=== Mini RDBMS ==="
@@ -15,15 +15,15 @@ while true; do
     case $choice in
         1)
             # Call create_db.sh
-            bash scripts/create_db.sh "$DB_DIR"
+            bash scripts/create_db.sh "$db_directory"
             ;;
         2)
             # Call select_db.sh
-            bash scripts/select_db.sh "$DB_DIR"
+            bash scripts/select_db.sh "$db_directory"
             ;;
         3)
             # Call drop_db.sh
-            bash scripts/drop_db.sh "$DB_DIR"
+            bash scripts/drop_db.sh "$db_directory"
             ;;
         4)
             echo "Exiting Mini RDBMS..."

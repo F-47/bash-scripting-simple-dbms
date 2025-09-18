@@ -1,8 +1,7 @@
 #!/bin/bash
-DB_DIR=$1
+db_directory=$1
 
-# Check if there are any databases
-db_list=($(ls "$DB_DIR"))
+db_list=($(ls "$db_directory"))
 if [ ${#db_list[@]} -eq 0 ]; then
     echo "No databases found."
     exit 0
@@ -16,7 +15,7 @@ select db_name in "${db_list[@]}" "Back"; do
 
     read -p "Are you sure you want to drop database '$db_name'? (y/n): " confirm
     if [ "$confirm" = "y" ]; then
-        rm -rf "$DB_DIR/$db_name"
+        rm -rf "$db_directory/$db_name"
         echo "Database '$db_name' dropped."
     else
         echo "Cancelled."

@@ -1,15 +1,15 @@
 #!/bin/bash
-DB_PATH=$1
+db_path=$1
 
 echo "Available tables:"
-select table_name in $(ls "$DB_PATH") "Back"; do
+select table_name in $(ls "$db_path") "Back"; do
     if [ "$table_name" = "Back" ] || [ -z "$table_name" ]; then
         break
     fi
 
-    TABLE_PATH="$DB_PATH/$table_name"
+    table_path="$db_path/$table_name"
     echo "Table content:"
-    nl -w2 -s". " "$TABLE_PATH"
+    nl -w2 -s". " "$table_path"
 
     read -p "Enter row number(s) to delete (comma-separated, e.g. 2,3): " rows
     rows=$(echo $rows | tr ',' ' ')
@@ -22,9 +22,9 @@ select table_name in $(ls "$DB_PATH") "Back"; do
     }
     NR==1 { print; next }   # always keep header
     !(NR in todelete) { print }
-    ' "$TABLE_PATH" > "$tmp_file"
+    ' "$table_path" > "$tmp_file"
 
-    mv "$tmp_file" "$TABLE_PATH"
+    mv "$tmp_file" "$table_path"
     echo "Row(s) deleted!"
     break
 done

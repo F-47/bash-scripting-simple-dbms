@@ -1,15 +1,15 @@
 #!/bin/bash
-DB_PATH=$1
+db_path=$1
 
 echo "Available tables:"
-select table_name in $(ls "$DB_PATH") "Back"; do
+select table_name in $(ls "$db_path") "Back"; do
     if [ "$table_name" = "Back" ] || [ -z "$table_name" ]; then
         break
     fi
 
-    TABLE_PATH="$DB_PATH/$table_name"
-    header=$(head -n1 "$TABLE_PATH")
-    IFS=":" read -r -a col_headers <<< "$header"
+    table_path="$db_path/$table_name"
+    header=$(head -n1 "$table_path")
+    IFS=":" read -a col_headers <<< "$header"
 
     half=$(( ${#col_headers[@]} / 2 ))
     col_names=("${col_headers[@]:0:$half}")
@@ -32,7 +32,7 @@ select table_name in $(ls "$DB_PATH") "Back"; do
         fi
     done
 
-    echo "$values" >> "$TABLE_PATH"
+    echo "$values" >> "$table_path"
     echo "Row inserted successfully!"
     break
 done

@@ -1,14 +1,14 @@
 #!/bin/bash
-DB_PATH=$1
+db_path=$1
 
 echo "Available tables:"
-select table_name in $(ls "$DB_PATH") "Back"; do
+select table_name in $(ls "$db_path") "Back"; do
     if [ "$table_name" = "Back" ] || [ -z "$table_name" ]; then
         break
     fi
 
-    TABLE_PATH="$DB_PATH/$table_name"
-    rm -f "$TABLE_PATH"
+    table_path="$db_path/$table_name"
+    rm -f "$table_path"
     echo "Table '$table_name' dropped!"
     break
 done

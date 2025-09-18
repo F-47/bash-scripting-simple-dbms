@@ -1,23 +1,21 @@
 #!/bin/bash
-DB_PATH=$1
+db_path=$1
 
 echo "Available tables:"
-select table_name in $(ls "$DB_PATH") "Back"; do
+select table_name in $(ls "$db_path") "Back"; do
     if [ "$table_name" = "Back" ] || [ -z "$table_name" ]; then
         break
     fi
 
-    TABLE_FILE="$DB_PATH/$table_name"
+    table_file="$db_path/$table_name"
 
-    # Get schema (first line)
-    schema=$(head -n 1 "$TABLE_FILE")
+    schema=$(head -n 1 "$table_file")
     columns=$(echo "$schema" | cut -d: -f1-$(($(echo "$schema" | tr -cd ':' | wc -c)/2+1)))
 
     echo "Columns: $columns"
     read -p "Enter primary key value of row to update: " pk_val
 
-    # Check if row exists
-    row=$(grep "^$pk_val:" "$TABLE_FILE")
+    row=$(grep "^$pk_val:" "$table_file")
     if [ -z "$row" ]; then
         echo "Row with PK=$pk_val not found."
         break
@@ -25,7 +23,6 @@ select table_name in $(ls "$DB_PATH") "Back"; do
 
     echo "Existing row: $row"
 
-    # Ask new values
     new_row=""
     IFS=: read -ra col_arr <<< "$columns"
     for col in "${col_arr[@]}"; do
@@ -41,8 +38,7 @@ select table_name in $(ls "$DB_PATH") "Back"; do
         fi
     done
 
-    # Replace row
-    sed -i "/^$pk_val:/c$new_row" "$TABLE_FILE"
+    sed -i "/^$pk_val:/c$new_row" "$table_file"
     echo "Row updated."
 
     break

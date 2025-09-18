@@ -1,10 +1,10 @@
 #!/bin/bash
-DB_PATH=$1
+db_path=$1
 
 read -p "Enter table name: " table_name
-TABLE_PATH="$DB_PATH/$table_name"
+table_path="$db_path/$table_name"
 
-if [ -f "$TABLE_PATH" ]; then
+if [ -f "$table_path" ]; then
     echo "Table '$table_name' already exists!"
     exit 1
 fi
@@ -17,7 +17,6 @@ types=""
 for ((i=1; i<=col_count; i++)); do
     if [ $i -eq 1 ]; then
         read -p "Enter column #$i name (PRIMARY KEY): " col_name
-        # PK type must be int or string
         select pk_type in string int; do
             if [[ "$pk_type" =~ ^(string|int)$ ]]; then
                 col_type=$pk_type
@@ -28,7 +27,6 @@ for ((i=1; i<=col_count; i++)); do
         done
     else
         read -p "Enter column #$i name: " col_name
-        # Remaining columns can be string, int, or float
         select type in string int float; do
             if [[ "$type" =~ ^(string|int|float)$ ]]; then
                 col_type=$type
@@ -39,7 +37,6 @@ for ((i=1; i<=col_count; i++)); do
         done
     fi
 
-    # Append to schema
     if [ -z "$columns" ]; then
         columns="$col_name"
         types="$col_type"
@@ -49,7 +46,6 @@ for ((i=1; i<=col_count; i++)); do
     fi
 done
 
-# Save schema in first line of table file
-echo "$columns:$types" > "$TABLE_PATH"
+echo "$columns:$types" > "$table_path"
 
 echo "Table '$table_name' created. PRIMARY KEY is '$columns' (first column)."
