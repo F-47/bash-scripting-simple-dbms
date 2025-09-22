@@ -2,14 +2,14 @@
 db_path=$1
 
 echo "Available tables:"
-select table_name in $(ls "$db_path") "Back"; do
-    if [ "$table_name" = "Back" ] || [ -z "$table_name" ]; then
+select table_name in $(ls "$db_path") "Return"; do
+    if [ "$table_name" = "Return" ] || [ -z "$table_name" ]; then
         break
     fi
 
     table_path="$db_path/$table_name"
-    header=$(head -n1 "$table_path")
-    IFS=":" read -a col_headers <<< "$header"
+    schema=$(head -n1 "$table_path")
+    IFS=":" read -a col_headers <<< "$schema"
 
     half=$(( ${#col_headers[@]} / 2 ))
     col_names=("${col_headers[@]:0:$half}")
@@ -17,11 +17,12 @@ select table_name in $(ls "$db_path") "Back"; do
 
     values=""
     for ((i=0;i<${#col_names[@]};i++)); do
+        # take val 
         while true; do
             read -p "Enter ${col_names[$i]} (${col_types[$i]}): " val
-            # Primary key check for first column
+            # check unique primary key
             if [ $i -eq 0 ]; then
-                if grep -q "^$val:" "$table_path"; then
+                if grep "^$val:" "$table_path"; then
                     echo "Error: Primary key '$val' already exists. Please enter a unique value."
                     continue
                 fi
@@ -32,6 +33,8 @@ select table_name in $(ls "$db_path") "Back"; do
                 string) break ;;
             esac
         done
+
+        # append the val 
         if [ -z "$values" ]; then
             values="$val"
         else
