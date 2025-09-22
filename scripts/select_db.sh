@@ -2,7 +2,7 @@
 db_directory=$1
 
 echo "Available databases:"
-select db_name in $(ls "$db_directory") "Back"; do
+select db_name in $(ls -F "$db_directory") "Back"; do
     if [ "$db_name" = "Back" ] || [ -z "$db_name" ]; then
         break
     fi
@@ -11,7 +11,7 @@ select db_name in $(ls "$db_directory") "Back"; do
     echo "Selected database: $db_name"
 
     while true; do
-        echo "=== Database: $db_name ==="
+        echo "Database: $db_name"
         echo "1) Create Table"
         echo "2) Insert into Table"
         echo "3) Update Row"

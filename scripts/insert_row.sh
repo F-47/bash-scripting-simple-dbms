@@ -19,6 +19,13 @@ select table_name in $(ls "$db_path") "Back"; do
     for ((i=0;i<${#col_names[@]};i++)); do
         while true; do
             read -p "Enter ${col_names[$i]} (${col_types[$i]}): " val
+            # Primary key check for first column
+            if [ $i -eq 0 ]; then
+                if grep -q "^$val:" "$table_path"; then
+                    echo "Error: Primary key '$val' already exists. Please enter a unique value."
+                    continue
+                fi
+            fi
             case "${col_types[$i]}" in
                 int) [[ "$val" =~ ^[0-9]+$ ]] && break || echo "Invalid int" ;;
                 float) [[ "$val" =~ ^[0-9]+([.][0-9]+)?$ ]] && break || echo "Invalid float" ;;
